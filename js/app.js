@@ -11,33 +11,8 @@ var navLeft = document.createElement("i");
 var navRight = document.createElement("i");
 var close = document.createElement("i");
 var endBody = document.querySelector("body script");
-var listItem = "";
+var currentListItem = "";
 var linkRef = "";
-var selectedListItem = "";
-var nextListItem = "";
-
-//close overlay
-var closeOverlay = function() {
-  overlay.style.display = "none";
-}
-
-//add overlay
-var addOverlay = function(event) {
-  //prevent default behaviour
-  event.preventDefault();
-  //make overlay visible
-  overlay.style.display = "block";
-  //set the imgSelected
-  selectedListItem = event.currentTarget;
-  //get the src attribute of the clicked image
-  linkRef = event.currentTarget.firstElementChild.getAttribute("href");
-  //update img src to selected image
-  image.setAttribute("src", linkRef);
-  //get the p text for the caption
-  captionText = event.currentTarget.lastElementChild.innerHTML;
-  //update the caption text on the overlay
-  caption.innerHTML = captionText;
-}
 
 var search = function() {
   //Take the value of #search
@@ -58,64 +33,68 @@ var search = function() {
   }
 }
 
-var nextImage = function() {
-  if (selectedListItem.nextElementSibling != null) {
-    if ( (searchBox.value == "" && selectedListItem.nextElementSibling != null) || (searchBox.value != "" && selectedListItem.nextElementSibling != null && selectedListItem.nextElementSibling.className == "gallery-item match") ) {
-      selectedListItem = selectedListItem.nextElementSibling;
-      updateOverlay();
-    } else {
-        while ( selectedListItem.nextElementSibling != null ) {
-          selectedListItem = selectedListItem.nextElementSibling;
-          nextImage();
-      }
-    }
-  }
+//add overlay
+function addOverlay(event) {
+  //prevent default behaviour
+  event.preventDefault();
+  //make overlay visible
+  overlay.style.display = "block";
+  //set selected li
+  currentListItem = event.currentTarget;
+  //get the src attribute of the image and the p text for the clicked li
+  linkRef = this.firstElementChild.getAttribute("href");
+  captionText = this.lastElementChild.innerHTML;
+  //update img src and caption text
+  image.setAttribute("src", linkRef);
+  caption.innerHTML = captionText;
 }
-
-/* var nextImage = function() {
-  if ( ( searchBox.value == "" && selectedListItem.nextElementSibling != null) || ( searchBox.value != "" && selectedListItem.nextElementSibling != null && selectedListItem.nextElementSibling.className == "gallery-item match" ) ) {
-    selectedListItem = selectedListItem.nextElementSibling;
-    updateOverlay();
-  } else {
-    while ( selectedListItem.nextElementSibling != null ) {
-      if ( selectedListItem.nextElementSibling.className != "gallery-match" ) {
-        selectedListItem = selectedListItem.nextElementSibling;
-      } updateOverlay();
-    }
-    updateOverlay();
-  }
-}
-*/
-var prevImage = function() {
-  if (selectedListItem.previousElementSibling != null) {
-    if ( (searchBox.value == "" && selectedListItem.previousElementSibling != null) || (searchBox.value != "" && selectedListItem.previousElementSibling != null && selectedListItem.previousElementSibling.className == "gallery-item match") ) {
-      selectedListItem = selectedListItem.previousElementSibling;
-      updateOverlay();
-    } else {
-        while ( selectedListItem.previousElementSibling != null && selectedListItem.previousElementSibling.className == "gallery-item hidden" ) {
-          selectedListItem = selectedListItem.previousElementSibling;
-          prevImage();
-      }
-    }
-  }
-}
-
-
 
 function updateOverlay() {
-  //get the href attribute of the image tag within the selectedListItem
-  linkRef = selectedListItem.firstElementChild.getAttribute("href");
-  //get the p tag text
-  captionText = selectedListItem.lastElementChild.innerHTML;
   //set the image in the overlay's src attribute
   image.setAttribute("src", linkRef);
   //replace the caption with the captionText
   caption.innerHTML = captionText;
 }
 
-//Call the search function when text is entered in the search box
-searchBox.onkeyup = search;
+function nextImage() {
+  nextListItem = currentListItem.nextElementSibling;
+  if (nextListItem != null) {
+    linkRef = nextListItem.firstElementChild.getAttribute("href");
+    captionText = nextListItem.lastElementChild.innerHTML;
+    updateOverlay();
+    currentListItem = nextListItem;
+  }
+}
 
+function prevImage() {
+  prevListItem = currentListItem.previousElementSibling;
+  if ( prevListItem != null ) {
+    linkRef = prevListItem.firstElementChild.getAttribute("href");
+    captionText = prevListItem.lastElementChild.innerHTML;
+    updateOverlay();
+    currentListItem = prevListItem;
+  }
+}
+
+//close overlay
+function closeOverlay() {
+  overlay.style.display = "none";
+}
+
+//Listen for click event on all li's
+for (i = 0; i < gallery.children.length; i ++) {
+  gallery.children[i].addEventListener("click", addOverlay);
+}
+
+//Listen for key up event on search box
+searchBox.addEventListener("keyup", search);
+
+//Listen for click event on close and prev buttons
+navRight.addEventListener("click", nextImage);
+navLeft.addEventListener("click", prevImage);
+
+//Listen for click event on close button
+close.addEventListener("click", closeOverlay);
 
 //Lightbox gallery
   //Problem:  When clicking on an image, you see the full screen link with no option to go back
@@ -141,17 +120,3 @@ navRight.className = "fa fa-chevron-right";
 overlay.appendChild(close);
 //add font awesome class to close
 close.className = "fa fa-times";
-
-//bind onclick event to the overlay close button
-close.onclick = closeOverlay;
-
-//bind onclick event to the navRight
-navRight.onclick = nextImage;
-
-//bind onclick event to the navRight
-navLeft.onclick = prevImage;
-
-//bind clickHandler function to all .galleryitem
-for (i = 0; i < gallery.children.length; i ++) {
-  gallery.children[i].onclick = addOverlay;
-}
