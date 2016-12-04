@@ -1,0 +1,190 @@
+/* Global */
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+p,
+#search {
+  font-family: "jaf-domus",sans-serif;
+  font-size: 16px;
+  color: slategray;
+}
+
+/*---HEADER---*/
+
+header {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  min-height: 150px;
+  color: slategray;
+}
+
+.logo h1 {
+  font-family: "ff-prater-block-web",sans-serif;
+  font-size: 3.2em;
+  color: slategray;
+  transition: 0.2s ease-in-out;
+  }
+
+  .logo h1:hover {
+    color: darkgray;
+  }
+
+
+#search {
+  width: 60%;
+  max-width: 460px;
+  border: 2px solid whitesmoke;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1.4em;
+  transition: .5s ease-in-out;
+  margin-bottom: 20px;
+}
+
+#search:focus {
+  outline: none;
+  background-color: whitesmoke;
+}
+
+/*---GALLERY---*/
+
+#gallery {
+  max-width: 1045px;
+  margin: 250px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  max-width: 200px;
+  margin: 0 2.884615384615385% 5.769230769230769%;
+}
+
+.img-caption {
+  position: absolute;
+  bottom: -200px;
+  padding: 10px;
+  margin: 0;
+  text-align: left;
+  color: whitesmoke;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: .5s;
+}
+
+.gallery-item img {
+  transition: .5s;
+}
+
+
+.gallery-item:hover .img-caption {
+  bottom: 0px;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.2);
+  filter: blur(3px);
+}
+
+.hidden {
+  display: none;
+}
+
+/*---FOOTER---*/
+
+footer {
+  text-align: center;
+}
+
+/*---OVERLAY---*/
+
+.overlay {
+  display:none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: rgba(0,0,0,0.95);
+}
+
+.overlay img {
+  margin-top: 10vh;
+  width: 75%;
+}
+
+.overlay p {
+  color: #fff;
+  font-size: 1.2em;
+  width: 75%;
+  margin: 20px auto;
+}
+
+ i[class*="fa-chevron"] {
+  position: absolute;
+  top: 60vh;
+  font-size: 2.5em;
+  color: #fff;
+  cursor: pointer;
+}
+
+.fa-chevron-left {
+  left: 2.5%;
+}
+
+.fa-chevron-right {
+  right: 2.5%;
+}
+
+.fa-times {
+  position: absolute;
+  top: 2.5%;
+  right: 2.5%;
+  color: #fff;
+  font-size: 2em;
+  cursor: pointer;
+
+}
+
+
+/*---MEDIA QUERIES---*/
+
+@media screen and (min-width: 768px) {
+
+  .overlay img {
+    margin-top: 20vh;
+    width: 60%;
+  }
+
+  .overlay p {
+    width: 60%;
+  }
+
+   i[class*="fa-chevron"] {
+    top: 50vh;
+  }
+
+  .fa-chevron-left {
+    left: 5%;
+  }
+
+  .fa-chevron-right {
+    right: 5%;
+  }
+
+  .fa-times {
+    top: 5%;
+    right: 5%;
+  }
+}
