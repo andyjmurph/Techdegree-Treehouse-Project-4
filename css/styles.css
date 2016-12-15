@@ -25,14 +25,14 @@ header {
   color: slategray;
 }
 
-.logo h1 {
+.logo {
   font-family: "ff-prater-block-web",sans-serif;
-  font-size: 3.2em;
+  font-size: 2em;
   color: slategray;
   transition: 0.2s ease-in-out;
   }
 
-  .logo h1:hover {
+  .logo:hover {
     color: darkgray;
   }
 
@@ -99,6 +99,10 @@ header {
   display: none;
 }
 
+.visible {
+  display: block
+}
+
 /*---FOOTER---*/
 
 footer {
@@ -163,7 +167,7 @@ footer {
 @media screen and (min-width: 768px) {
 
   .overlay img {
-    margin-top: 20vh;
+    margin-top: 15vh;
     width: 60%;
   }
 
